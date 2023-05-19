@@ -19,7 +19,7 @@
 		0B1A047E2A183C7D0057D0A0 /* MainControlsPreview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MainControlsPreview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B1A04802A183C7D0057D0A0 /* MainControlsPreviewApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainControlsPreviewApp.swift; sourceTree = "<group>"; };
 		0B1A04842A183C7E0057D0A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0B1A048E2A183DF80057D0A0 /* Metronome.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Metronome.entitlements; sourceTree = "<group>"; };
+		0B1A048E2A183DF80057D0A0 /* metronome.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = metronome.entitlements; sourceTree = "<group>"; };
 		0B1A048F2A183E720057D0A0 /* metronome */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = metronome; sourceTree = "<group>"; };
 		0B1DB6A92A17A10F00ED5ACA /* metronome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = metronome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B1DB6AC2A17A10F00ED5ACA /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
@@ -87,7 +87,7 @@
 			children = (
 				0B1DB6AC2A17A10F00ED5ACA /* App.swift */,
 				0B1DB6B02A17A11000ED5ACA /* Assets.xcassets */,
-				0B1A048E2A183DF80057D0A0 /* Metronome.entitlements */,
+				0B1A048E2A183DF80057D0A0 /* metronome.entitlements */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
