@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-  name: "MyLibrary",
+  name: "metronome",
   platforms: [.iOS(.v16)],
   products: [
     .library(
