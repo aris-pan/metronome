@@ -7,36 +7,69 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B1DB6AD2A17A10F00ED5ACA /* MetronomeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1DB6AC2A17A10F00ED5ACA /* MetronomeApp.swift */; };
-		0B1DB6AF2A17A10F00ED5ACA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1DB6AE2A17A10F00ED5ACA /* ContentView.swift */; };
+		0B1A04782A183AC00057D0A0 /* MainControlsFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0B1A04772A183AC00057D0A0 /* MainControlsFeature */; };
+		0B1A04812A183C7D0057D0A0 /* MainControlsPreviewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1A04802A183C7D0057D0A0 /* MainControlsPreviewApp.swift */; };
+		0B1A04852A183C7E0057D0A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B1A04842A183C7E0057D0A0 /* Assets.xcassets */; };
+		0B1A048D2A183CB70057D0A0 /* MainControlsFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0B1A048C2A183CB70057D0A0 /* MainControlsFeature */; };
+		0B1DB6AD2A17A10F00ED5ACA /* MainControlsPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1DB6AC2A17A10F00ED5ACA /* MainControlsPreview.swift */; };
 		0B1DB6B12A17A11000ED5ACA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B1DB6B02A17A11000ED5ACA /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B1A047E2A183C7D0057D0A0 /* MainControlsPreview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MainControlsPreview.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B1A04802A183C7D0057D0A0 /* MainControlsPreviewApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainControlsPreviewApp.swift; sourceTree = "<group>"; };
+		0B1A04842A183C7E0057D0A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B1DB6A92A17A10F00ED5ACA /* Metronome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metronome.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B1DB6AC2A17A10F00ED5ACA /* MetronomeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetronomeApp.swift; sourceTree = "<group>"; };
-		0B1DB6AE2A17A10F00ED5ACA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0B1DB6AC2A17A10F00ED5ACA /* MainControlsPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainControlsPreview.swift; sourceTree = "<group>"; };
 		0B1DB6B02A17A11000ED5ACA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B1DB6BB2A17A1D500ED5ACA /* MyLibrary */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MyLibrary; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0B1A047B2A183C7D0057D0A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B1A048D2A183CB70057D0A0 /* MainControlsFeature in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0B1DB6A62A17A10F00ED5ACA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B1A04782A183AC00057D0A0 /* MainControlsFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B1A04792A183C460057D0A0 /* Previews */ = {
+			isa = PBXGroup;
+			children = (
+				0B1A047F2A183C7D0057D0A0 /* MainControlsPreview */,
+			);
+			path = Previews;
+			sourceTree = "<group>";
+		};
+		0B1A047F2A183C7D0057D0A0 /* MainControlsPreview */ = {
+			isa = PBXGroup;
+			children = (
+				0B1A04802A183C7D0057D0A0 /* MainControlsPreviewApp.swift */,
+				0B1A04842A183C7E0057D0A0 /* Assets.xcassets */,
+			);
+			path = MainControlsPreview;
+			sourceTree = "<group>";
+		};
 		0B1DB6A02A17A10F00ED5ACA = {
 			isa = PBXGroup;
 			children = (
 				0B1DB6BB2A17A1D500ED5ACA /* MyLibrary */,
 				0B1DB6AB2A17A10F00ED5ACA /* Metronome */,
+				0B1A04792A183C460057D0A0 /* Previews */,
 				0B1DB6AA2A17A10F00ED5ACA /* Products */,
+				0B1DB6BD2A17D5DF00ED5ACA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -44,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				0B1DB6A92A17A10F00ED5ACA /* Metronome.app */,
+				0B1A047E2A183C7D0057D0A0 /* MainControlsPreview.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -51,16 +85,42 @@
 		0B1DB6AB2A17A10F00ED5ACA /* Metronome */ = {
 			isa = PBXGroup;
 			children = (
-				0B1DB6AC2A17A10F00ED5ACA /* MetronomeApp.swift */,
-				0B1DB6AE2A17A10F00ED5ACA /* ContentView.swift */,
+				0B1DB6AC2A17A10F00ED5ACA /* MainControlsPreview.swift */,
 				0B1DB6B02A17A11000ED5ACA /* Assets.xcassets */,
 			);
 			path = Metronome;
 			sourceTree = "<group>";
 		};
+		0B1DB6BD2A17D5DF00ED5ACA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0B1A047D2A183C7D0057D0A0 /* MainControlsPreview */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B1A04892A183C7E0057D0A0 /* Build configuration list for PBXNativeTarget "MainControlsPreview" */;
+			buildPhases = (
+				0B1A047A2A183C7D0057D0A0 /* Sources */,
+				0B1A047B2A183C7D0057D0A0 /* Frameworks */,
+				0B1A047C2A183C7D0057D0A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MainControlsPreview;
+			packageProductDependencies = (
+				0B1A048C2A183CB70057D0A0 /* MainControlsFeature */,
+			);
+			productName = MainControlsPreview;
+			productReference = 0B1A047E2A183C7D0057D0A0 /* MainControlsPreview.app */;
+			productType = "com.apple.product-type.application";
+		};
 		0B1DB6A82A17A10F00ED5ACA /* Metronome */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0B1DB6B82A17A11000ED5ACA /* Build configuration list for PBXNativeTarget "Metronome" */;
@@ -74,6 +134,9 @@
 			dependencies = (
 			);
 			name = Metronome;
+			packageProductDependencies = (
+				0B1A04772A183AC00057D0A0 /* MainControlsFeature */,
+			);
 			productName = Metronome;
 			productReference = 0B1DB6A92A17A10F00ED5ACA /* Metronome.app */;
 			productType = "com.apple.product-type.application";
@@ -88,6 +151,9 @@
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					0B1A047D2A183C7D0057D0A0 = {
+						CreatedOnToolsVersion = 14.3;
+					};
 					0B1DB6A82A17A10F00ED5ACA = {
 						CreatedOnToolsVersion = 14.3;
 					};
@@ -107,11 +173,20 @@
 			projectRoot = "";
 			targets = (
 				0B1DB6A82A17A10F00ED5ACA /* Metronome */,
+				0B1A047D2A183C7D0057D0A0 /* MainControlsPreview */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0B1A047C2A183C7D0057D0A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B1A04852A183C7E0057D0A0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0B1DB6A72A17A10F00ED5ACA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -123,18 +198,86 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0B1A047A2A183C7D0057D0A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B1A04812A183C7D0057D0A0 /* MainControlsPreviewApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0B1DB6A52A17A10F00ED5ACA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B1DB6AF2A17A10F00ED5ACA /* ContentView.swift in Sources */,
-				0B1DB6AD2A17A10F00ED5ACA /* MetronomeApp.swift in Sources */,
+				0B1DB6AD2A17A10F00ED5ACA /* MainControlsPreview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		0B1A048A2A183C7E0057D0A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y5C6E4A2PU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aris.MainControlsPreview;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0B1A048B2A183C7E0057D0A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y5C6E4A2PU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aris.MainControlsPreview;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		0B1DB6B62A17A11000ED5ACA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -325,6 +468,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0B1A04892A183C7E0057D0A0 /* Build configuration list for PBXNativeTarget "MainControlsPreview" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B1A048A2A183C7E0057D0A0 /* Debug */,
+				0B1A048B2A183C7E0057D0A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0B1DB6A42A17A10F00ED5ACA /* Build configuration list for PBXProject "Metronome" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -344,6 +496,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0B1A04772A183AC00057D0A0 /* MainControlsFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MainControlsFeature;
+		};
+		0B1A048C2A183CB70057D0A0 /* MainControlsFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MainControlsFeature;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0B1DB6A12A17A10F00ED5ACA /* Project object */;
 }
