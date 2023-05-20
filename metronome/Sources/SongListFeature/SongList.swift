@@ -30,11 +30,11 @@ public struct SongList: ReducerProtocol {
       case .addNewSongTapped:
         state.songList.append(SongItem.State(id: uuid()))
         return .none
-        
+
       case let .onDeleteSong(indexSet):
         state.songList.remove(atOffsets: indexSet)
         return .none
-        
+
       case let .onMoveItems(indeces, newOffset):
         state.songList.move(fromOffsets: indeces, toOffset: newOffset)
         return .none
@@ -68,7 +68,7 @@ public struct SongList: ReducerProtocol {
 }
 
 extension URL {
-  static let songListPath: URL = URL.documentsDirectory.appending(path: "metronome_song_list")
+  static let songListPath: URL = .documentsDirectory.appending(path: "metronome_song_list")
 }
 
 public struct SongListView: View {
@@ -85,7 +85,7 @@ public struct SongListView: View {
           Section(header: HStack {
             Text("Songs")
             Image(systemName: "music.note")
-          }){
+          }) {
             ForEachStore(
               self.store.scope(
                 state: \.songList,
@@ -118,6 +118,7 @@ public struct SongListView: View {
           }, label: { Image(systemName: "ellipsis") })
         }
       }
+      .navigationTitle("Songs")
     }
   }
 }
@@ -164,7 +165,7 @@ struct SongItemView: View {
   let store: StoreOf<SongItem>
 
   var body: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
+    WithViewStore(store) { viewStore in
       HStack {
           TextField(
             "Song Title",

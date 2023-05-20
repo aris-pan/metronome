@@ -1,16 +1,15 @@
 import SwiftUI
-import ComposableArchitecture
-import MainControlsFeature
+import AppFeature
 
 @main
-struct MainControlsPreview: App {
+struct AppFeaturePreview: App {
   var body: some Scene {
     WindowGroup {
       NavigationStack {
-        MainControlsView(
-          store: StoreOf<MainControls>(
+        AppView(
+          store: .init(
             initialState: .init(),
-            reducer: MainControls()
+            reducer: AppFeature()
           )
         )
         .navigationTitle("Metronome")

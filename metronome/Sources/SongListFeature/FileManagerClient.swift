@@ -29,7 +29,7 @@ extension FileManagerClient {
 // MARK: - Test Value
 
 extension FileManagerClient {
-  static let test = Self (
+  static let test = Self(
     save: unimplemented("FileManagerClient.save"),
     load: unimplemented("FileManagerClient.load")
   )

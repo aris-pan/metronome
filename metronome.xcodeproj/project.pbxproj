@@ -7,16 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B1A04782A183AC00057D0A0 /* MainControlsFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0B1A04772A183AC00057D0A0 /* MainControlsFeature */; };
 		0B1A04812A183C7D0057D0A0 /* MainControlsPreviewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1A04802A183C7D0057D0A0 /* MainControlsPreviewApp.swift */; };
 		0B1A04852A183C7E0057D0A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B1A04842A183C7E0057D0A0 /* Assets.xcassets */; };
 		0B1DB6AD2A17A10F00ED5ACA /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1DB6AC2A17A10F00ED5ACA /* App.swift */; };
-		0B1DB6B12A17A11000ED5ACA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B1DB6B02A17A11000ED5ACA /* Assets.xcassets */; };
-		0B4F378B2A18784000378959 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B4F37862A18784000378959 /* Assets.xcassets */; };
 		0B4F37902A18794000378959 /* SongListFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0B4F378F2A18794000378959 /* SongListFeature */; };
 		0B4F37922A187A0B00378959 /* MainControlsFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0B4F37912A187A0B00378959 /* MainControlsFeature */; };
 		0B4F37932A187B8F00378959 /* SongListPreviewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4F37892A18784000378959 /* SongListPreviewApp.swift */; };
-		0B59124B2A1877F100EA5782 /* SongListFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0B59124A2A1877F100EA5782 /* SongListFeature */; };
+		0B6574D22A19308B00A87CF0 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0B6574D12A19308B00A87CF0 /* AppFeature */; };
+		0B6574D32A1933F800A87CF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B1DB6B02A17A11000ED5ACA /* Assets.xcassets */; };
+		0B6574D42A1933FF00A87CF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B4F37862A18784000378959 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,8 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B59124B2A1877F100EA5782 /* SongListFeature in Frameworks */,
-				0B1A04782A183AC00057D0A0 /* MainControlsFeature in Frameworks */,
+				0B6574D22A19308B00A87CF0 /* AppFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +85,7 @@
 				0B1DB6AB2A17A10F00ED5ACA /* iOS */,
 				0B1A04792A183C460057D0A0 /* Previews */,
 				0B1DB6AA2A17A10F00ED5ACA /* Products */,
+				0B6574D02A19308B00A87CF0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -117,6 +116,13 @@
 				0B4F37862A18784000378959 /* Assets.xcassets */,
 			);
 			path = SongListPreview;
+			sourceTree = "<group>";
+		};
+		0B6574D02A19308B00A87CF0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,8 +162,7 @@
 			);
 			name = metronome;
 			packageProductDependencies = (
-				0B1A04772A183AC00057D0A0 /* MainControlsFeature */,
-				0B59124A2A1877F100EA5782 /* SongListFeature */,
+				0B6574D12A19308B00A87CF0 /* AppFeature */,
 			);
 			productName = Metronome;
 			productReference = 0B1DB6A92A17A10F00ED5ACA /* metronome.app */;
@@ -213,6 +218,9 @@
 				Base,
 			);
 			mainGroup = 0B1DB6A02A17A10F00ED5ACA;
+			packageReferences = (
+				0B6574D92A19431B00A87CF0 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = 0B1DB6AA2A17A10F00ED5ACA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -237,8 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B4F378B2A18784000378959 /* Assets.xcassets in Resources */,
-				0B1DB6B12A17A11000ED5ACA /* Assets.xcassets in Resources */,
+				0B6574D32A1933F800A87CF0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +253,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6574D42A1933FF00A87CF0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,7 +460,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Metronome/Metronome.entitlements;
+				CODE_SIGN_ENTITLEMENTS = iOS/metronome.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y5C6E4A2PU;
@@ -489,7 +497,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Metronome/Metronome.entitlements;
+				CODE_SIGN_ENTITLEMENTS = iOS/metronome.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y5C6E4A2PU;
@@ -615,11 +623,18 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCSwiftPackageProductDependency section */
-		0B1A04772A183AC00057D0A0 /* MainControlsFeature */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MainControlsFeature;
+/* Begin XCRemoteSwiftPackageReference section */
+		0B6574D92A19431B00A87CF0 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.53.2;
+			};
 		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
 		0B4F378F2A18794000378959 /* SongListFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SongListFeature;
@@ -628,9 +643,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MainControlsFeature;
 		};
-		0B59124A2A1877F100EA5782 /* SongListFeature */ = {
+		0B6574D12A19308B00A87CF0 /* AppFeature */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = SongListFeature;
+			productName = AppFeature;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

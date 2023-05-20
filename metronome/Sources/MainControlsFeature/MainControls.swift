@@ -7,7 +7,11 @@ public struct MainControls: ReducerProtocol {
   public struct State: Equatable {
 
     var isTicking: Bool
-    var counter: Double
+    var counter: Double {
+      didSet {
+        counter = min(max(counter, 0), 100)
+      }
+    }
     var tickingInterval: Double {
       Double(60) / Double(counter)
     }
@@ -24,7 +28,6 @@ public struct MainControls: ReducerProtocol {
   public enum Action {
     case startTickingButtonTapped
     case stopTickingButtonTapped
-    case task
     case startTicking
 
     case incrementButtonTapped
@@ -40,7 +43,6 @@ public struct MainControls: ReducerProtocol {
 
   @Dependency(\.suspendingClock) var clock
   @Dependency(\.audioPlayer) var audioPlayer
-  @Dependency(\.mainQueue) var mainQueue
 
   @ReducerBuilder<State, Action>
   public var body: some ReducerProtocol<State, Action> {
@@ -48,7 +50,7 @@ public struct MainControls: ReducerProtocol {
       struct TickingEffectId: Hashable {}
 
       switch action {
-      case .startTickingButtonTapped, .task:
+      case .startTickingButtonTapped:
         return .send(.startTicking)
 
       case .stopTickingButtonTapped:
@@ -57,7 +59,7 @@ public struct MainControls: ReducerProtocol {
 
       case .startTicking:
         state.isTicking = true
-        return .run { [tickingInterval = state.tickingInterval] send in
+        return .run { [tickingInterval = state.tickingInterval] _ in
           let clock: AsyncStream = clock.timer(
             interval: .seconds(tickingInterval)
           ).eraseToStream()
@@ -71,7 +73,7 @@ public struct MainControls: ReducerProtocol {
           for await _ in clock {
             audioPlayer.play()
           }
-        }.debounce(id: TickingEffectId(), for: 0.4, scheduler: mainQueue)
+        }
         .cancellable(id: TickingEffectId(), cancelInFlight: true)
 
       case .incrementButtonTapped:
@@ -85,6 +87,7 @@ public struct MainControls: ReducerProtocol {
       case let .sliderDidMove(newValue):
         state.counter = newValue
         return .none
+
       case .decrement5ButtonTapped:
         state.counter -= 5
         return .none
@@ -115,7 +118,7 @@ public struct MainControlsView: View {
             get: \.counter,
             send: MainControls.Action.sliderDidMove
           ),
-          in: 20...140,
+          in: 0...100,
           step: 1
         ) { Text("bpm")
         } minimumValueLabel: { Text("20")
@@ -123,22 +126,30 @@ public struct MainControlsView: View {
 
         VStack {
           HStack {
-            Button(action: {
+            Button {
               viewStore.send(.decrement5ButtonTapped)
-            }) { Text("-5") }
+            } label: {
+              Text("-5")
+            }
             Spacer()
-            Button(action: {
+            Button {
               viewStore.send(.increment5ButtonTapped)
-            }) { Text("+5") }
+            } label: {
+              Text("+5")
+            }
           }
           HStack {
-            Button(action: {
+            Button {
               viewStore.send(.decrementButtonTapped)
-            }) { Text("-1") }
+            } label: {
+              Text("-1")
+            }
             Spacer()
-            Button(action: {
+            Button {
               viewStore.send(.incrementButtonTapped)
-            }) { Text("+1") }
+            } label: {
+              Text("+1")
+            }
           }
         }
         .buttonStyle(.borderedProminent)
@@ -157,9 +168,6 @@ public struct MainControlsView: View {
         .buttonStyle(.borderedProminent)
       }
       .padding(.horizontal, 48)
-      .task {
-        viewStore.send(.task)
-      }
     }
   }
 }

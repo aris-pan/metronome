@@ -41,6 +41,9 @@ final class MainControlsTests: XCTestCase {
   func testControls() async {
     let store = TestStore(initialState: MainControls.State(counter: 50)) {
       MainControls()
+    } withDependencies: {
+      $0.suspendingClock = self.clock
+      $0.audioPlayer = .init { _ in } play: {  }
     }
 
     await store.send(.decrementButtonTapped) {
@@ -54,5 +57,29 @@ final class MainControlsTests: XCTestCase {
     await store.send(.sliderDidMove(30)) {
       $0.counter = 30
     }
+
+    await store.send(.decrement5ButtonTapped) {
+      $0.counter = 25
+    }
+
+    await store.send(.increment5ButtonTapped) {
+      $0.counter = 30
+    }
+  }
+
+  func testMaxMinBpm() async {
+    var store = TestStore(initialState: MainControls.State(counter: 0)) {
+      MainControls()
+    }
+
+    // 0 is minimum no state change
+    await store.send(.decrementButtonTapped)
+
+    store = TestStore(initialState: MainControls.State(counter: 100)) {
+      MainControls()
+    }
+
+    // 100 is maximum no state change
+    await store.send(.incrementButtonTapped)
   }
 }
