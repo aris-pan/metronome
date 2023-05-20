@@ -40,17 +40,20 @@ public struct MainControls: ReducerProtocol {
 
   @Dependency(\.suspendingClock) var clock
   @Dependency(\.audioPlayer) var audioPlayer
+  @Dependency(\.mainQueue) var mainQueue
 
   @ReducerBuilder<State, Action>
   public var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
+      struct TickingEffectId: Hashable {}
+
       switch action {
       case .startTickingButtonTapped, .task:
         return .send(.startTicking)
 
       case .stopTickingButtonTapped:
         state.isTicking = false
-        return EffectTask.cancel(id: "tickingTask")
+        return EffectTask.cancel(id: TickingEffectId())
 
       case .startTicking:
         state.isTicking = true
@@ -68,8 +71,8 @@ public struct MainControls: ReducerProtocol {
           for await _ in clock {
             audioPlayer.play()
           }
-        }
-        .cancellable(id: "tickingTask", cancelInFlight: true)
+        }.debounce(id: TickingEffectId(), for: 0.4, scheduler: mainQueue)
+        .cancellable(id: TickingEffectId(), cancelInFlight: true)
 
       case .incrementButtonTapped:
         state.counter += 1

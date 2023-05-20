@@ -11,6 +11,7 @@
 		0B1A04812A183C7D0057D0A0 /* MainControlsPreviewApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1A04802A183C7D0057D0A0 /* MainControlsPreviewApp.swift */; };
 		0B1A04852A183C7E0057D0A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B1A04842A183C7E0057D0A0 /* Assets.xcassets */; };
 		0B1A048D2A183CB70057D0A0 /* MainControlsFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0B1A048C2A183CB70057D0A0 /* MainControlsFeature */; };
+		0B1A04922A1857AA0057D0A0 /* SongListFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0B1A04912A1857AA0057D0A0 /* SongListFeature */; };
 		0B1DB6AD2A17A10F00ED5ACA /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1DB6AC2A17A10F00ED5ACA /* App.swift */; };
 		0B1DB6B12A17A11000ED5ACA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B1DB6B02A17A11000ED5ACA /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B1A04922A1857AA0057D0A0 /* SongListFeature in Frameworks */,
 				0B1A048D2A183CB70057D0A0 /* MainControlsFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,6 +65,13 @@
 			path = MainControlsPreview;
 			sourceTree = "<group>";
 		};
+		0B1A04902A1857AA0057D0A0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		0B1DB6A02A17A10F00ED5ACA = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +79,7 @@
 				0B1DB6AB2A17A10F00ED5ACA /* iOS */,
 				0B1A04792A183C460057D0A0 /* Previews */,
 				0B1DB6AA2A17A10F00ED5ACA /* Products */,
+				0B1A04902A1857AA0057D0A0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -110,6 +120,7 @@
 			name = MainControlsPreview;
 			packageProductDependencies = (
 				0B1A048C2A183CB70057D0A0 /* MainControlsFeature */,
+				0B1A04912A1857AA0057D0A0 /* SongListFeature */,
 			);
 			productName = MainControlsPreview;
 			productReference = 0B1A047E2A183C7D0057D0A0 /* MainControlsPreview.app */;
@@ -235,9 +246,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = aris.MainControlsPreview;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -265,9 +279,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = aris.MainControlsPreview;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -499,6 +516,10 @@
 		0B1A048C2A183CB70057D0A0 /* MainControlsFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MainControlsFeature;
+		};
+		0B1A04912A1857AA0057D0A0 /* SongListFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SongListFeature;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
