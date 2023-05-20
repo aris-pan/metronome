@@ -1,18 +1,18 @@
 import SwiftUI
-import MainControlsFeature
+import SongListFeature
 
 @main
-struct MainControlsPreview: App {
+struct SongListPreview: App {
   var body: some Scene {
     WindowGroup {
       NavigationStack {
-        MainControlsView(
+        SongListView(
           store: .init(
             initialState: .init(),
-            reducer: MainControls()
+            reducer: SongList()
           )
         )
-        .navigationTitle("Metronome")
+        .navigationTitle("Song List")
         .navigationBarTitleDisplayMode(.inline)
       }
     }

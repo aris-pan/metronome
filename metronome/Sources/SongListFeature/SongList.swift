@@ -3,7 +3,11 @@ import SwiftUI
 
 public struct SongList: ReducerProtocol {
   public struct State: Equatable {
-    var songList: IdentifiedArrayOf<SongItem.State> = []
+    var songList: IdentifiedArrayOf<SongItem.State>
+
+    public init(songList: IdentifiedArrayOf<SongItem.State> = []) {
+      self.songList = songList
+    }
   }
 
   public enum Action: Equatable {
@@ -14,6 +18,8 @@ public struct SongList: ReducerProtocol {
   }
 
   @Dependency(\.uuid) var uuid
+
+  public init() {}
 
   public var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
@@ -101,6 +107,9 @@ public struct SongItem: ReducerProtocol {
       return .none
 
     case let .bpmFieldChanged(bpm):
+      guard bpm.count <= 3 else {
+        return .none
+      }
       state.bpm = bpm
       return .none
     }
@@ -113,24 +122,25 @@ struct SongItemView: View {
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       HStack {
-        TextField(
-          "Song Title",
-          text: viewStore.binding(
-            get: \.title,
-            send: SongItem.Action.textFieldChanged
+          TextField(
+            "Song Title",
+            text: viewStore.binding(
+              get: \.title,
+              send: SongItem.Action.textFieldChanged
+            )
           )
-        )
-        Spacer()
-        TextField(
-          "bpm",
-          text: viewStore.binding(
-            get: \.bpm,
-            send: SongItem.Action.bpmFieldChanged
+          Spacer()
+          TextField(
+            "bpm",
+            text: viewStore.binding(
+              get: \.bpm,
+              send: SongItem.Action.bpmFieldChanged
+            )
           )
-        )
-        .frame(width: 80)
-        .keyboardType(.decimalPad)
-      }
+
+          .frame(width: 35)
+          .keyboardType(.decimalPad)
+        }
     }
   }
 }
