@@ -87,7 +87,7 @@ final class SongListFeatureTests: XCTestCase {
     var loadURL: URL?
 
     let store = TestStore(initialState: SongList.State(songList: initialSongList)) {
-      SongList() 
+      SongList()
     } withDependencies: {
       $0.fileManager = FileManagerClient(
         save: { data, url in
@@ -101,6 +101,7 @@ final class SongListFeatureTests: XCTestCase {
 
     await store.send(.saveButtonTapped)
 
+    // swiftlint:disable:next compiler_protocol_init
     await store.send(.onDeleteSong(IndexSet(arrayLiteral: 0, 1))) {
       $0.songList = []
     }
