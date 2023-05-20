@@ -29,6 +29,8 @@ public struct MainControls: ReducerProtocol {
 
     case incrementButtonTapped
     case decrementButtonTapped
+    case decrement5ButtonTapped
+    case increment5ButtonTapped
     case sliderDidMove(Double)
   }
 
@@ -80,6 +82,14 @@ public struct MainControls: ReducerProtocol {
       case let .sliderDidMove(newValue):
         state.counter = newValue
         return .none
+      case .decrement5ButtonTapped:
+        state.counter -= 5
+        return .none
+
+      case .increment5ButtonTapped:
+        state.counter += 5
+        return .none
+
       }
     }
   }
@@ -95,65 +105,56 @@ public struct MainControlsView: View {
   public var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack(spacing: 48) {
+        Text("\(Int(viewStore.state.counter))")
+          .font(.init(.system(size: 80)))
 
-        VStack(spacing: 56) {
-          Text("\(Int(viewStore.state.counter))")
-            .font(.init(.system(size: 80)))
+        Slider(
+          value: viewStore.binding(
+            get: \.counter,
+            send: {.sliderDidMove($0)}
+          ),
+          in: 20...140,
+          step: 1
+        ) { Text("bpm")
+        } minimumValueLabel: { Text("20")
+        } maximumValueLabel: { Text("140") }
 
-          Slider(
-            value: viewStore.binding(
-              get: \.counter,
-              send: { .sliderDidMove($0)}
-            ),
-            in: 20...140,
-            step: 1
-          ) {
-            Text("bpm")
-          } minimumValueLabel: {
-            Text("20")
-          } maximumValueLabel: {
-            Text("140")
+        VStack {
+          HStack {
+            Button(action: {
+              viewStore.send(.decrement5ButtonTapped)
+            }) { Text("-5") }
+            Spacer()
+            Button(action: {
+              viewStore.send(.increment5ButtonTapped)
+            }) { Text("+5") }
           }
-
           HStack {
             Button(action: {
               viewStore.send(.decrementButtonTapped)
-            }) {
-              Image(systemName: "minus")
-                .font(.largeTitle)
-                .frame(width: 10)
-            }
-            .padding()
-            .background(Circle().stroke(style: .init()))
+            }) { Text("-1") }
             Spacer()
             Button(action: {
               viewStore.send(.incrementButtonTapped)
-            }) {
-              Image(systemName: "plus")
-                .font(.largeTitle)
-                .frame(width: 10)
-            }
-            .padding()
-            .background(Circle().stroke(style: .init()))
+            }) { Text("+1") }
           }
-          .padding(.horizontal, 48)
-          .foregroundColor(.primary)
         }
-        .padding(.horizontal, 48)
+        .buttonStyle(.borderedProminent)
 
-        Button(action: {
+        Button {
           if viewStore.state.isTicking {
             viewStore.send(.stopTickingButtonTapped)
           } else {
             viewStore.send(.startTickingButtonTapped)
           }
-        }) {
-          Text("\(viewStore.state.isTicking ? "STOP" : "START")")
-            .frame(maxWidth: .infinity, minHeight: 40)
+        } label: {
+          Label("\(viewStore.state.isTicking ? "STOP" : "START")",
+                systemImage: "\(viewStore.state.isTicking ? "pause" : "play")")
+          .frame(maxWidth: .infinity, minHeight: 40)
         }
-        .padding(.horizontal, 24)
         .buttonStyle(.borderedProminent)
       }
+      .padding(.horizontal, 48)
       .task {
         viewStore.send(.task)
       }
