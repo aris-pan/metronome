@@ -25,7 +25,7 @@ public struct SongList: ReducerProtocol {
     Reduce { state, action in
       switch action {
       case .addNewSongTapped:
-        state.songList.append(SongItem.State(title: "", id: uuid(), bpm: ""))
+        state.songList.append(SongItem.State(id: uuid()))
         return .none
         
       case let .onDeleteSong(indexSet):
@@ -90,9 +90,15 @@ public struct SongListView: View {
 
 public struct SongItem: ReducerProtocol {
   public struct State: Equatable, Identifiable {
-    var title = ""
     public let id: UUID
-    var bpm = ""
+    var title: String
+    var bpm: String
+
+    public init(id: UUID, title: String = "", bpm: String = "") {
+      self.id = id
+      self.title = title
+      self.bpm = bpm
+    }
   }
 
   public enum Action: Equatable {
@@ -145,7 +151,6 @@ struct SongItemView: View {
   }
 }
 
-
 #if DEBUG
 struct SongListView_Previews: PreviewProvider {
   static var previews: some View {
@@ -153,8 +158,16 @@ struct SongListView_Previews: PreviewProvider {
       SongListView(
         store: Store(
           initialState: SongList.State(songList: [
-            .init(title: "I Fought the Law", id: UUID(), bpm: "110"),
-            .init(title: "Gigantic", id: UUID(), bpm: "65")
+            .init(
+              id: UUID(),
+              title: "I Fought the Law",
+              bpm: "110"
+            ),
+            .init(
+              id: UUID(),
+              title: "Gigantic",
+              bpm: "65"
+            )
           ]),
           reducer: SongList()
         )
