@@ -92,7 +92,6 @@ public struct MainControls: ReducerProtocol {
       case .increment5ButtonTapped:
         state.counter += 5
         return .none
-
       }
     }
   }
@@ -106,7 +105,7 @@ public struct MainControlsView: View {
   }
 
   public var body: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
+    WithViewStore(store) { viewStore in
       VStack(spacing: 48) {
         Text("\(Int(viewStore.state.counter))")
           .font(.init(.system(size: 80)))
@@ -114,7 +113,7 @@ public struct MainControlsView: View {
         Slider(
           value: viewStore.binding(
             get: \.counter,
-            send: {.sliderDidMove($0)}
+            send: MainControls.Action.sliderDidMove
           ),
           in: 20...140,
           step: 1

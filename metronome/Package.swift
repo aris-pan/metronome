@@ -6,6 +6,7 @@ let package = Package(
   name: "metronome",
   platforms: [.iOS(.v16)],
   products: [
+    .library(name: "AppFeature", targets: ["AppFeature"]),
     .library(name: "SongListFeature", targets: ["SongListFeature"]),
     .library(name: "MainControlsFeature", targets: ["MainControlsFeature"]),
   ],
@@ -13,6 +14,15 @@ let package = Package(
     .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "0.53.2"),
   ],
   targets: [
+    .target(
+      name: "AppFeature",
+      dependencies: [
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+        "SongListFeature",
+        "MainControlsFeature"
+      ]
+    ),
+
     .target(
       name: "MainControlsFeature",
       dependencies: [

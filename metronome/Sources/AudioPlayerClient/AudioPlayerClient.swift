@@ -5,35 +5,21 @@ public struct AudioPlayerClient {
   public var setUrl: (URL) -> Void
   public var play: () -> Void
 
+  // needed for testing
   public init(
     setUrl: @escaping (URL) -> Void,
-    play: @escaping () -> Void) {
+    play: @escaping () -> Void
+  ) {
     self.setUrl = setUrl
     self.play = play
   }
 }
 
-extension DependencyValues {
-  public var audioPlayer: AudioPlayerClient {
-    get { self[AudioPlayerClient.self] }
-    set { self[AudioPlayerClient.self] = newValue }
-  }
-}
-
 extension AudioPlayerClient: DependencyKey {
-  public static var liveValue: AudioPlayerClient = .live
+  public static var liveValue: Self = .live
 
-  public static var testValue: AudioPlayerClient = .test
-  public static var previewValue: AudioPlayerClient = .test
-}
-
-// MARK: - Test Value
-
-extension AudioPlayerClient {
-  static let test: AudioPlayerClient = Self(
-    setUrl: unimplemented("AudioPlayerClient.setUrl"),
-    play: unimplemented("AudioPlayerClient.play")
-  )
+  public static var testValue: Self = .test
+  public static var previewValue: Self = .test
 }
 
 // MARK: - Live Value
@@ -63,4 +49,20 @@ extension AudioPlayerClient {
       }
     )
   }()
+}
+
+// MARK: - Test Value
+
+extension AudioPlayerClient {
+  static let test: AudioPlayerClient = Self(
+    setUrl: unimplemented("AudioPlayerClient.setUrl"),
+    play: unimplemented("AudioPlayerClient.play")
+  )
+}
+
+extension DependencyValues {
+  public var audioPlayer: AudioPlayerClient {
+    get { self[AudioPlayerClient.self] }
+    set { self[AudioPlayerClient.self] = newValue }
+  }
 }

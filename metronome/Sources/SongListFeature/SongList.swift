@@ -15,9 +15,12 @@ public struct SongList: ReducerProtocol {
     case onDeleteSong(IndexSet)
     case onMoveItems(IndexSet, Int)
     case todo(id: SongItem.State.ID, action: SongItem.Action)
+    case saveButtonTapped
+    case loadButtonTapped
   }
 
   @Dependency(\.uuid) var uuid
+  @Dependency(\.fileManager) var fileManager
 
   public init() {}
 
@@ -38,12 +41,34 @@ public struct SongList: ReducerProtocol {
 
       case .todo:
         return .none
+      case .saveButtonTapped:
+        do {
+          let dataSongList = try JSONEncoder().encode(state.songList)
+          try fileManager.save(dataSongList, URL.songListPath)
+        } catch {
+
+        }
+        return .none
+
+      case .loadButtonTapped:
+        do {
+          let dataSongList = try fileManager.load(URL.songListPath)
+          let songList = try JSONDecoder().decode([SongItem.State].self, from: dataSongList)
+          state.songList = IdentifiedArray(uniqueElements: songList)
+        } catch {
+
+        }
+        return .none
       }
     }
     .forEach(\.songList, action: /Action.todo(id:action:)) {
       SongItem()
     }
   }
+}
+
+extension URL {
+  static let songListPath: URL = URL.documentsDirectory.appending(path: "metronome_song_list")
 }
 
 public struct SongListView: View {
@@ -54,7 +79,7 @@ public struct SongListView: View {
   }
 
   public var body: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
+    WithViewStore(store) { viewStore in
       Form {
         List {
           Section(header: HStack {
@@ -68,20 +93,29 @@ public struct SongListView: View {
               content: SongItemView.init(store:)
             )
             .onDelete { viewStore.send(.onDeleteSong($0)) }
-            .onMove { indexes, newOffset in
-              viewStore.send(.onMoveItems(indexes, newOffset))
-            }
+            .onMove { viewStore.send(.onMoveItems($0, $1)) }
           }
         }
       }
       .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
+        ToolbarItem(placement: .bottomBar) {
           EditButton()
         }
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button("Add") {
+        ToolbarItem(placement: .bottomBar) {
+          Button("New") {
             viewStore.send(.addNewSongTapped)
           }
+        }
+
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Menu(content: {
+            Button("Load") {
+              viewStore.send(.loadButtonTapped)
+            }
+            Button("Save") {
+              viewStore.send(.saveButtonTapped)
+            }
+          }, label: { Image(systemName: "ellipsis") })
         }
       }
     }
@@ -89,12 +123,16 @@ public struct SongListView: View {
 }
 
 public struct SongItem: ReducerProtocol {
-  public struct State: Equatable, Identifiable {
+  public struct State: Equatable, Identifiable, Codable {
     public let id: UUID
     var title: String
     var bpm: String
 
-    public init(id: UUID, title: String = "", bpm: String = "") {
+    public init(
+      id: UUID,
+      title: String = "",
+      bpm: String = ""
+    ) {
       self.id = id
       self.title = title
       self.bpm = bpm
