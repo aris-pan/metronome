@@ -32,19 +32,18 @@ public struct AppFeature: ReducerProtocol {
   public init() {}
 
   public var body: some ReducerProtocol<State, Action> {
-    Reduce { _, action in
-      switch action {
-      case .mainControls, .songList:
-        return .none
-      }
-    }
     Scope(state: \.mainControls, action: /Action.mainControls) {
       MainControls()
     }
     Scope(state: \.songList, action: /Action.songList) {
       SongList()
     }
-
+    Reduce { _, action in
+      switch action {
+      case .mainControls, .songList:
+        return .none
+      }
+    }
   }
 }
 
@@ -58,25 +57,23 @@ public struct AppView: View {
   }
 
   public var body: some View {
-    WithViewStore(store) { _ in
-      NavigationStack {
-        VStack {
-          MainControlsView.init(
+    NavigationStack {
+      VStack {
+        MainControlsView(
+          store: self.store.scope(
+            state: \.mainControls,
+            action: Action.mainControls
+          )
+        )
+      }
+      .toolbar {
+        NavigationLink("Songs") {
+          SongListView(
             store: self.store.scope(
-              state: \.mainControls,
-              action: Action.mainControls
+              state: \.songList,
+              action: Action.songList
             )
           )
-        }
-        .toolbar {
-          NavigationLink("Songs") {
-            SongListView.init(
-              store: self.store.scope(
-                state: \.songList,
-                action: Action.songList
-              )
-            )
-          }
         }
       }
     }
