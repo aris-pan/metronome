@@ -14,7 +14,7 @@ public struct SongList: ReducerProtocol {
     case addNewSongTapped
     case onDeleteSong(IndexSet)
     case onMoveItems(IndexSet, Int)
-    case todo(id: SongItem.State.ID, action: SongItem.Action)
+    case todo(id: UUID, action: SongItem.Action)
     case saveButtonTapped
     case loadButtonTapped
   }
@@ -35,8 +35,8 @@ public struct SongList: ReducerProtocol {
         state.songList.remove(atOffsets: indexSet)
         return .none
 
-      case let .onMoveItems(indeces, newOffset):
-        state.songList.move(fromOffsets: indeces, toOffset: newOffset)
+      case let .onMoveItems(indices, newOffset):
+        state.songList.move(fromOffsets: indices, toOffset: newOffset)
         return .none
 
       case .todo:
