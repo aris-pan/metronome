@@ -103,7 +103,7 @@ public struct SongListView: View {
         }
         ToolbarItem(placement: .bottomBar) {
           Button("New") {
-            viewStore.send(.addNewSongTapped)
+            viewStore.send(.addNewSongTapped, animation: .easeIn)
           }
         }
 
