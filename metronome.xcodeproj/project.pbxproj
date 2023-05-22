@@ -85,7 +85,6 @@
 				0B1DB6AB2A17A10F00ED5ACA /* iOS */,
 				0B1A04792A183C460057D0A0 /* Previews */,
 				0B1DB6AA2A17A10F00ED5ACA /* Products */,
-				0B6574D02A19308B00A87CF0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -116,13 +115,6 @@
 				0B4F37862A18784000378959 /* Assets.xcassets */,
 			);
 			path = SongListPreview;
-			sourceTree = "<group>";
-		};
-		0B6574D02A19308B00A87CF0 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
