@@ -14,7 +14,7 @@ public struct SongList: ReducerProtocol {
     case addNewSongTapped
     case onDeleteSong(IndexSet)
     case onMoveItems(IndexSet, Int)
-    case todo(id: UUID, action: SongItem.Action)
+    case song(id: UUID, action: SongItem.Action)
     case saveButtonTapped
     case loadButtonTapped
   }
@@ -39,14 +39,14 @@ public struct SongList: ReducerProtocol {
         state.songList.move(fromOffsets: indices, toOffset: newOffset)
         return .none
 
-      case .todo:
+      case .song:
         return .none
       case .saveButtonTapped:
         do {
           let dataSongList = try JSONEncoder().encode(state.songList)
           try fileManager.save(dataSongList, URL.songListPath)
         } catch {
-
+          // TODO: Add error handling
         }
         return .none
 
@@ -56,12 +56,12 @@ public struct SongList: ReducerProtocol {
           let songList = try JSONDecoder().decode([SongItem.State].self, from: dataSongList)
           state.songList = IdentifiedArray(uniqueElements: songList)
         } catch {
-
+          // TODO: Add error handling
         }
         return .none
       }
     }
-    .forEach(\.songList, action: /Action.todo(id:action:)) {
+    .forEach(\.songList, action: /Action.song(id:action:)) {
       SongItem()
     }
   }
@@ -82,28 +82,26 @@ public struct SongListView: View {
     WithViewStore(store) { viewStore in
       Form {
         List {
-          Section(header: HStack {
-            Text("Songs")
-            Image(systemName: "music.note")
-          }) {
-            ForEachStore(
-              self.store.scope(
-                state: \.songList,
-                action: SongList.Action.todo(id:action:)),
-              content: SongItemView.init(store:)
-            )
-            .onDelete { viewStore.send(.onDeleteSong($0)) }
-            .onMove { viewStore.send(.onMoveItems($0, $1)) }
-          }
+          ForEachStore(
+            self.store.scope(
+              state: \.songList,
+              action: SongList.Action.song(id:action:)),
+            content: SongItemView.init(store:)
+          )
+          .onDelete { viewStore.send(.onDeleteSong($0)) }
+          .onMove { viewStore.send(.onMoveItems($0, $1)) }
         }
+        // Makes buttons inside List tappable
+        .buttonStyle(BorderlessButtonStyle())
       }
       .toolbar {
+        ToolbarItem(placement: .bottomBar) { EditButton() }
+
         ToolbarItem(placement: .bottomBar) {
-          EditButton()
-        }
-        ToolbarItem(placement: .bottomBar) {
-          Button("New") {
+          Button {
             viewStore.send(.addNewSongTapped, animation: .easeIn)
+          } label: {
+            Image(systemName: "plus.circle.fill")
           }
         }
 
@@ -118,7 +116,8 @@ public struct SongListView: View {
           }, label: { Image(systemName: "ellipsis") })
         }
       }
-      .navigationTitle("Songs")
+      .navigationTitle("Song List")
+      .navigationBarTitleDisplayMode(.inline)
     }
   }
 }
@@ -143,6 +142,7 @@ public struct SongItem: ReducerProtocol {
   public enum Action: Equatable {
     case textFieldChanged(String)
     case bpmFieldChanged(String)
+    case setButtonTapped(String)
   }
 
   public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
@@ -151,11 +151,14 @@ public struct SongItem: ReducerProtocol {
       state.title = text
       return .none
 
-    case let .bpmFieldChanged(bpm):
-      guard bpm.count <= 3 else {
+    case let .bpmFieldChanged(newBpm):
+      guard newBpm.count <= 3 else {
         return .none
       }
-      state.bpm = bpm
+      state.bpm = newBpm
+      return .none
+
+    case .setButtonTapped(_):
       return .none
     }
   }
@@ -166,26 +169,29 @@ struct SongItemView: View {
 
   var body: some View {
     WithViewStore(store) { viewStore in
-      HStack {
-          TextField(
-            "Song Title",
-            text: viewStore.binding(
-              get: \.title,
-              send: SongItem.Action.textFieldChanged
-            )
+      HStack(spacing: 32) {
+        TextField(
+          "Song Title",
+          text: viewStore.binding(
+            get: \.title,
+            send: SongItem.Action.textFieldChanged
           )
-          Spacer()
-          TextField(
-            "bpm",
-            text: viewStore.binding(
-              get: \.bpm,
-              send: SongItem.Action.bpmFieldChanged
-            )
+        )
+        TextField(
+          "bpm",
+          text: viewStore.binding(
+            get: \.bpm,
+            send: SongItem.Action.bpmFieldChanged
           )
+        )
+        .frame(width: 40)
+        .keyboardType(.decimalPad)
 
-          .frame(width: 35)
-          .keyboardType(.decimalPad)
+        Button("Set") {
+          viewStore.send(.setButtonTapped(viewStore.state.bpm))
         }
+        .disabled(viewStore.bpm.isEmpty)
+      }
     }
   }
 }
@@ -204,8 +210,8 @@ struct SongListView_Previews: PreviewProvider {
             ),
             .init(
               id: UUID(),
-              title: "Gigantic",
-              bpm: "65"
+              title: "",
+              bpm: ""
             )
           ]),
           reducer: SongList()

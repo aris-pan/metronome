@@ -39,7 +39,7 @@ final class MainControlsTests: XCTestCase {
   }
 
   func testControls() async {
-    let store = TestStore(initialState: MainControls.State(counter: 50)) {
+    let store = TestStore(initialState: MainControls.State(bpm: 50)) {
       MainControls()
     } withDependencies: {
       $0.suspendingClock = self.clock
@@ -47,35 +47,35 @@ final class MainControlsTests: XCTestCase {
     }
 
     await store.send(.decrementButtonTapped) {
-      $0.counter = 49
+      $0.bpm = 49
     }
 
     await store.send(.incrementButtonTapped) {
-      $0.counter = 50
+      $0.bpm = 50
     }
 
     await store.send(.sliderDidMove(30)) {
-      $0.counter = 30
+      $0.bpm = 30
     }
 
     await store.send(.decrement5ButtonTapped) {
-      $0.counter = 25
+      $0.bpm = 25
     }
 
     await store.send(.increment5ButtonTapped) {
-      $0.counter = 30
+      $0.bpm = 30
     }
   }
 
   func testMaxMinBpm() async {
-    var store = TestStore(initialState: MainControls.State(counter: 0)) {
+    var store = TestStore(initialState: MainControls.State(bpm: 0)) {
       MainControls()
     }
 
     // 0 is minimum no state change
     await store.send(.decrementButtonTapped)
 
-    store = TestStore(initialState: MainControls.State(counter: 100)) {
+    store = TestStore(initialState: MainControls.State(bpm: 100)) {
       MainControls()
     }
 

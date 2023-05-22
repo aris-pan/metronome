@@ -8,8 +8,15 @@ struct AppFeaturePreview: App {
       NavigationStack {
         AppView(
           store: .init(
-            initialState: .init(),
-            reducer: AppFeature()
+            initialState: .init(
+              songList: .init(
+                songList: .init(
+                  arrayLiteral: .init(id: UUID())
+                )
+              ),
+              bpm: 70
+            ),
+            reducer: { AppFeature() }
           )
         )
         .navigationTitle("Metronome")

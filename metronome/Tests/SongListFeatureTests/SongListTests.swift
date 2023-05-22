@@ -42,7 +42,7 @@ final class SongListFeatureTests: XCTestCase {
       SongList()
     }
 
-    await store.send(.todo(
+    await store.send(.song(
       id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
       action: .textFieldChanged("Snap Out Of It")
     )) {
@@ -54,7 +54,7 @@ final class SongListFeatureTests: XCTestCase {
       ]
     }
 
-    await store.send(.todo(
+    await store.send(.song(
       id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
       action: .bpmFieldChanged("55")
     )) {

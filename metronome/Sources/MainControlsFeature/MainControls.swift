@@ -6,21 +6,29 @@ import AudioPlayerClient
 public struct MainControls: ReducerProtocol {
   public struct State: Equatable {
 
-    var isTicking: Bool
-    var counter: Double {
+    var minBPM: Double
+    var maxBPM: Double
+
+    public var isTicking: Bool
+    public var bpm: Double {
       didSet {
-        counter = min(max(counter, 0), 100)
+        bpm = min(max(bpm, 0), 100)
       }
     }
+
     var tickingInterval: Double {
-      Double(60) / Double(counter)
+      Double(60) / Double(bpm)
     }
 
     public init(
-      counter: Double = 70,
-      isTicking: Bool = false
+      bpm: Double = 0,
+      isTicking: Bool = false,
+      minBPM: Double = 0,
+      maxBPM: Double = 100
     ) {
-      self.counter = counter
+      self.minBPM = minBPM
+      self.maxBPM = maxBPM
+      self.bpm = bpm
       self.isTicking = isTicking
     }
   }
@@ -77,23 +85,23 @@ public struct MainControls: ReducerProtocol {
         .cancellable(id: TickingEffectId(), cancelInFlight: true)
 
       case .incrementButtonTapped:
-        state.counter += 1
+        state.bpm += 1
         return .none
 
       case .decrementButtonTapped:
-        state.counter -= 1
+        state.bpm -= 1
         return .none
 
       case let .sliderDidMove(newValue):
-        state.counter = newValue
+        state.bpm = newValue
         return .none
 
       case .decrement5ButtonTapped:
-        state.counter -= 5
+        state.bpm -= 5
         return .none
 
       case .increment5ButtonTapped:
-        state.counter += 5
+        state.bpm += 5
         return .none
       }
     }
@@ -110,45 +118,41 @@ public struct MainControlsView: View {
   public var body: some View {
     WithViewStore(store) { viewStore in
       VStack(spacing: 48) {
-        Text("\(Int(viewStore.state.counter))")
+        Text("\(Int(viewStore.state.bpm))")
           .font(.init(.system(size: 80)))
 
         Slider(
           value: viewStore.binding(
-            get: \.counter,
+            get: \.bpm,
             send: MainControls.Action.sliderDidMove
           ),
-          in: 0...100,
+          in: viewStore.state.minBPM...viewStore.state.maxBPM,
           step: 1
-        ) { Text("bpm")
-        } minimumValueLabel: { Text("20")
-        } maximumValueLabel: { Text("140") }
+        ) {
+          Text("bpm")
+        } minimumValueLabel: {
+          Text("\(Int(viewStore.state.minBPM))")
+        } maximumValueLabel: {
+          Text("\(Int(viewStore.state.maxBPM))")
+        }
 
         VStack {
           HStack {
-            Button {
+            Button("-5") {
               viewStore.send(.decrement5ButtonTapped)
-            } label: {
-              Text("-5")
             }
             Spacer()
-            Button {
+            Button("+5") {
               viewStore.send(.increment5ButtonTapped)
-            } label: {
-              Text("+5")
             }
           }
           HStack {
-            Button {
+            Button("-1") {
               viewStore.send(.decrementButtonTapped)
-            } label: {
-              Text("-1")
             }
             Spacer()
-            Button {
+            Button("+1") {
               viewStore.send(.incrementButtonTapped)
-            } label: {
-              Text("+1")
             }
           }
         }
@@ -177,7 +181,7 @@ struct MainControls_Previews: PreviewProvider {
   static var previews: some View {
     MainControlsView(
       store: Store(
-        initialState: MainControls.State(),
+        initialState: MainControls.State(bpm: 70),
         reducer: MainControls()
       )
     )
