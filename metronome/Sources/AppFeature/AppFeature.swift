@@ -7,7 +7,8 @@ public struct AppFeature: ReducerProtocol {
   public struct State: Equatable {
     var songList: SongList.State
     var mainControls: MainControls.State
-    var path: [Nav]
+
+    var showSongsList: Bool
 
     // Add a view of the bpm LocalState
     var bpm: Double {
@@ -23,25 +24,20 @@ public struct AppFeature: ReducerProtocol {
     public init(
       mainControls: MainControls.State = .init(),
       songList: SongList.State = .init(),
-      path: [Nav] = [],
-      bpm: Double = 60
+      bpm: Double = 60,
+      showSongsList: Bool = false
     ) {
       self.mainControls = mainControls
       self.songList = songList
-      self.path = path
+      self.showSongsList = showSongsList
       self.bpm = bpm
     }
-  }
-
-  public enum Nav: Hashable {
-    case songList
   }
 
   public enum Action {
     case mainControls(MainControls.Action)
     case songList(SongList.Action)
-    case pathUpdated([Nav])
-    case songsButtonTapped
+    case showSongsList(Bool)
   }
 
   public init() {}
@@ -60,18 +56,14 @@ public struct AppFeature: ReducerProtocol {
           return .none
         }
         state.bpm = bpm
-        state.path.removeLast()
+        state.showSongsList = false
         return .none
 
       case .mainControls, .songList:
         return .none
 
-      case let .pathUpdated(path):
-        state.path = path
-        return .none
-
-      case .songsButtonTapped:
-        state.path.append(.songList)
+      case let .showSongsList(newValue):
+        state.showSongsList = newValue
         return .none
       }
     }
@@ -89,10 +81,7 @@ public struct AppView: View {
 
   public var body: some View {
     WithViewStore(store) { viewStore in
-      NavigationStack(path: viewStore.binding(
-        get: \.path,
-        send: AppFeature.Action.pathUpdated
-      )) {
+      NavigationStack {
         VStack {
           MainControlsView(
             store: self.store.scope(
@@ -101,20 +90,22 @@ public struct AppView: View {
             )
           )
         }
-        .navigationDestination(for: AppFeature.Nav.self) { route in
-          switch route {
-          case .songList:
+        .navigationDestination(
+          isPresented: viewStore.binding(
+            get: \.showSongsList,
+            send: { AppFeature.Action.showSongsList($0) }
+          ),
+          destination: {
             SongListView(
               store: self.store.scope(
                 state: \.songList,
                 action: Action.songList
               )
             )
-          }
-        }
+          })
         .toolbar {
           Button("Songs") {
-            viewStore.send(.songsButtonTapped)
+            viewStore.send(.showSongsList(true))
           }
         }
       }
