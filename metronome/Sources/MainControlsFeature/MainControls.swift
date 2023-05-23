@@ -118,9 +118,11 @@ public struct MainControlsView: View {
   public var body: some View {
     WithViewStore(store) { viewStore in
       VStack(spacing: 48) {
-        Text("\(Int(viewStore.state.bpm))")
-          .font(.init(.system(size: 80)))
-
+        HStack {
+          Text("\(Int(viewStore.state.bpm))")
+            .font(.init(.system(size: 80)))
+          Text("bpm")
+        }
         Slider(
           value: viewStore.binding(
             get: \.bpm,
@@ -165,8 +167,10 @@ public struct MainControlsView: View {
             viewStore.send(.startTickingButtonTapped)
           }
         } label: {
-          Label("\(viewStore.state.isTicking ? "STOP" : "START")",
-                systemImage: "\(viewStore.state.isTicking ? "pause" : "play")")
+          HStack {
+            Text("\(viewStore.state.isTicking ? "STOP" : "START")")
+            Image(systemName: "\(viewStore.state.isTicking ? "pause" : "play")")
+          }
           .frame(maxWidth: .infinity, minHeight: 40)
         }
         .buttonStyle(.borderedProminent)

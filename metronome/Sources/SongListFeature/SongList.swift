@@ -80,31 +80,26 @@ public struct SongListView: View {
 
   public var body: some View {
     WithViewStore(store) { viewStore in
-      Form {
-        List {
-          ForEachStore(
-            self.store.scope(
-              state: \.songList,
-              action: SongList.Action.song(id:action:)),
-            content: SongItemView.init(store:)
-          )
-          .onDelete { viewStore.send(.onDeleteSong($0)) }
-          .onMove { viewStore.send(.onMoveItems($0, $1)) }
+      List {
+        ForEachStore(
+          self.store.scope(
+            state: \.songList,
+            action: SongList.Action.song(id:action:)),
+          content: SongItemView.init(store:)
+        )
+        .onDelete { viewStore.send(.onDeleteSong($0)) }
+        .onMove { viewStore.send(.onMoveItems($0, $1)) }
+
+        Button {
+          viewStore.send(.addNewSongTapped, animation: .easeIn)
+        } label: {
+          Text("Add")
+          Image(systemName: "plus.circle")
         }
-        // Makes buttons inside List tappable
-        .buttonStyle(BorderlessButtonStyle())
       }
+      // Makes buttons inside List tappable
+      .buttonStyle(BorderlessButtonStyle())
       .toolbar {
-        ToolbarItem(placement: .bottomBar) { EditButton() }
-
-        ToolbarItem(placement: .bottomBar) {
-          Button {
-            viewStore.send(.addNewSongTapped, animation: .easeIn)
-          } label: {
-            Image(systemName: "plus.circle.fill")
-          }
-        }
-
         ToolbarItem(placement: .navigationBarTrailing) {
           Menu(content: {
             Button("Load") {
@@ -113,6 +108,7 @@ public struct SongListView: View {
             Button("Save") {
               viewStore.send(.saveButtonTapped)
             }
+            EditButton()
           }, label: { Image(systemName: "ellipsis") })
         }
       }
