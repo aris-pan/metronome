@@ -12,7 +12,7 @@ public struct MainControls: ReducerProtocol {
     public var isTicking: Bool
     public var bpm: Double {
       didSet {
-        bpm = min(max(bpm, 0), 100)
+        bpm = min(max(bpm, minBPM), maxBPM)
       }
     }
 
@@ -23,8 +23,8 @@ public struct MainControls: ReducerProtocol {
     public init(
       bpm: Double = 0,
       isTicking: Bool = false,
-      minBPM: Double = 0,
-      maxBPM: Double = 100
+      minBPM: Double = 10,
+      maxBPM: Double = 140
     ) {
       self.minBPM = minBPM
       self.maxBPM = maxBPM
@@ -43,6 +43,7 @@ public struct MainControls: ReducerProtocol {
     case decrement5ButtonTapped
     case increment5ButtonTapped
     case sliderDidMove(Double)
+    case didChangeBPM
   }
 
   public init() {}
@@ -86,23 +87,30 @@ public struct MainControls: ReducerProtocol {
 
       case .incrementButtonTapped:
         state.bpm += 1
-        return .none
+        return .send(.didChangeBPM)
 
       case .decrementButtonTapped:
         state.bpm -= 1
-        return .none
+        return .send(.didChangeBPM)
 
       case let .sliderDidMove(newValue):
         state.bpm = newValue
-        return .none
+        return .send(.didChangeBPM)
 
       case .decrement5ButtonTapped:
         state.bpm -= 5
-        return .none
+        return .send(.didChangeBPM)
 
       case .increment5ButtonTapped:
         state.bpm += 5
-        return .none
+        return .send(.didChangeBPM)
+
+      case .didChangeBPM:
+        if state.isTicking {
+          return .send(.startTicking)
+        } else {
+          return .none
+        }
       }
     }
   }
@@ -186,7 +194,10 @@ struct MainControls_Previews: PreviewProvider {
     MainControlsView(
       store: Store(
         initialState: MainControls.State(bpm: 70),
-        reducer: MainControls()
+        reducer: MainControls(),
+        prepareDependencies: {
+          $0.audioPlayer = .liveValue
+        }
       )
     )
   }
