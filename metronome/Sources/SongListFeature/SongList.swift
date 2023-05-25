@@ -72,7 +72,7 @@ public struct SongList: ReducerProtocol {
         state.showErrorAlert = visible
         return .none
       }
-    }._printChanges()
+    }
     .forEach(\.songList, action: /Action.song(id:action:)) {
       SongItem()
     }
