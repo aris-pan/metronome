@@ -43,7 +43,7 @@ public struct MainControls: ReducerProtocol {
     case decrement5ButtonTapped
     case increment5ButtonTapped
     case sliderDidMove(Double)
-    case didChangeBPM
+    case checkIfBpmShouldChange(Double)
   }
 
   public init() {}
@@ -85,27 +85,31 @@ public struct MainControls: ReducerProtocol {
         }
         .cancellable(id: TickingEffectId(), cancelInFlight: true)
 
+      case let .sliderDidMove(newValue):
+        return .send(.checkIfBpmShouldChange(newValue))
+
       case .incrementButtonTapped:
-        state.bpm += 1
-        return .send(.didChangeBPM)
+        let newBpm = state.bpm + 1
+        return .send(.checkIfBpmShouldChange(newBpm))
 
       case .decrementButtonTapped:
-        state.bpm -= 1
-        return .send(.didChangeBPM)
-
-      case let .sliderDidMove(newValue):
-        state.bpm = newValue
-        return .send(.didChangeBPM)
+        let newBpm = state.bpm - 1
+        return .send(.checkIfBpmShouldChange(newBpm))
 
       case .decrement5ButtonTapped:
-        state.bpm -= 5
-        return .send(.didChangeBPM)
+        let newBpm = state.bpm - 5
+        return .send(.checkIfBpmShouldChange(newBpm))
 
       case .increment5ButtonTapped:
-        state.bpm += 5
-        return .send(.didChangeBPM)
+        let newBpm = state.bpm + 5
+        return .send(.checkIfBpmShouldChange(newBpm))
 
-      case .didChangeBPM:
+      case let .checkIfBpmShouldChange(newBpm):
+        guard min(max(newBpm, state.minBPM), state.maxBPM) != state.bpm else {
+          return .none
+        }
+        state.bpm = newBpm
+
         if state.isTicking {
           return .send(.startTicking)
         } else {

@@ -33,6 +33,17 @@ extension FileManagerClient {
     save: unimplemented("FileManagerClient.save"),
     load: unimplemented("FileManagerClient.load")
   )
+
+  static let error = Self(
+    save: { _, _ in
+      struct SaveToFileSystemError: Error {}
+      throw SaveToFileSystemError()
+    },
+    load: { _ in
+      struct LoadToFileSystemError: Error {}
+      throw LoadToFileSystemError()
+    }
+  )
 }
 
 extension DependencyValues {

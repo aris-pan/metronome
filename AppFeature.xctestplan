@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "473ED9EA-438A-4AA3-B848-74EC05754A3E",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SongListFeatureTests",
+        "name" : "SongListFeatureTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "MainControlsFeatureTests",
+        "name" : "MainControlsFeatureTests"
+      }
+    }
+  ],
+  "version" : 1
+}

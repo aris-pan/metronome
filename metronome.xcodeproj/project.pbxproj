@@ -30,6 +30,7 @@
 		0B4F37862A18784000378959 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B4F37892A18784000378959 /* SongListPreviewApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListPreviewApp.swift; sourceTree = "<group>"; };
 		0B5912502A18780300EA5782 /* SongListPreview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SongListPreview.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B7460CD2A1F7B420029440E /* AppFeature.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = AppFeature.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +82,7 @@
 		0B1DB6A02A17A10F00ED5ACA = {
 			isa = PBXGroup;
 			children = (
+				0B7460CD2A1F7B420029440E /* AppFeature.xctestplan */,
 				0B1A048F2A183E720057D0A0 /* metronome */,
 				0B1DB6AB2A17A10F00ED5ACA /* iOS */,
 				0B1A04792A183C460057D0A0 /* Previews */,

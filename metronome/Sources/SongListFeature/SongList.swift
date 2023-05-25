@@ -4,9 +4,14 @@ import SwiftUI
 public struct SongList: ReducerProtocol {
   public struct State: Equatable {
     var songList: IdentifiedArrayOf<SongItem.State>
+    var showErrorAlert: Bool
 
-    public init(songList: IdentifiedArrayOf<SongItem.State> = []) {
+    public init(
+      songList: IdentifiedArrayOf<SongItem.State> = [],
+      showErrorAlert: Bool = false
+    ) {
       self.songList = songList
+      self.showErrorAlert = showErrorAlert
     }
   }
 
@@ -17,6 +22,7 @@ public struct SongList: ReducerProtocol {
     case song(id: UUID, action: SongItem.Action)
     case saveButtonTapped
     case loadButtonTapped
+    case errorAlertVisibilityChanged(Bool)
   }
 
   @Dependency(\.uuid) var uuid
@@ -46,7 +52,8 @@ public struct SongList: ReducerProtocol {
           let dataSongList = try JSONEncoder().encode(state.songList)
           try fileManager.save(dataSongList, URL.songListPath)
         } catch {
-          // TODO: Add error handling
+          state.showErrorAlert = true
+          return .none
         }
         return .none
 
@@ -56,11 +63,16 @@ public struct SongList: ReducerProtocol {
           let songList = try JSONDecoder().decode([SongItem.State].self, from: dataSongList)
           state.songList = IdentifiedArray(uniqueElements: songList)
         } catch {
-          // TODO: Add error handling
+          state.showErrorAlert = true
+          return .none
         }
         return .none
+
+      case let .errorAlertVisibilityChanged(visible):
+        state.showErrorAlert = visible
+        return .none
       }
-    }
+    }._printChanges()
     .forEach(\.songList, action: /Action.song(id:action:)) {
       SongItem()
     }
@@ -114,6 +126,11 @@ public struct SongListView: View {
       }
       .navigationTitle("Song List")
       .navigationBarTitleDisplayMode(.inline)
+      .alert("An Error Occured", isPresented: .init(get: {
+        viewStore.showErrorAlert
+      }, set: { showErrorAlert in
+        viewStore.send(.errorAlertVisibilityChanged(showErrorAlert))
+      }), actions: {})
     }
   }
 }
@@ -210,8 +227,12 @@ struct SongListView_Previews: PreviewProvider {
               bpm: ""
             )
           ]),
-          reducer: SongList()
+          reducer: SongList(),
+          prepareDependencies: {
+            $0.fileManager = .error
+          }
         )
+
       )
     }
   }

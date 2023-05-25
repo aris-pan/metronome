@@ -10,7 +10,7 @@ final class MainControlsTests: XCTestCase {
   func testTicking() async {
     var timesPlayed = 0
 
-    let store = TestStore(initialState: MainControls.State()) {
+    let store = TestStore(initialState: MainControls.State(bpm: 60)) {
       MainControls()
     } withDependencies: {
       $0.suspendingClock = self.clock
@@ -46,40 +46,72 @@ final class MainControlsTests: XCTestCase {
       $0.audioPlayer = .init { _ in } play: {  }
     }
 
-    await store.send(.decrementButtonTapped) {
+    await store.send(.decrementButtonTapped)
+
+    await store.receive(.init(.checkIfBpmShouldChange(-1))) {
       $0.bpm = 49
     }
 
-    await store.send(.incrementButtonTapped) {
+    await store.send(.incrementButtonTapped)
+
+    await store.receive(.init(.checkIfBpmShouldChange(50))) {
       $0.bpm = 50
     }
 
-    await store.send(.sliderDidMove(30)) {
+    await store.send(.sliderDidMove(30))
+
+    await store.receive(.init(.checkIfBpmShouldChange(30))) {
       $0.bpm = 30
     }
 
-    await store.send(.decrement5ButtonTapped) {
+    await store.send(.decrement5ButtonTapped)
+
+    await store.receive(.init(.checkIfBpmShouldChange(25))) {
       $0.bpm = 25
     }
 
-    await store.send(.increment5ButtonTapped) {
+    await store.send(.increment5ButtonTapped)
+
+    await store.receive(.init(.checkIfBpmShouldChange(30))) {
       $0.bpm = 30
+    }
+
+    await store.send(.startTickingButtonTapped)
+
+    await store.receive(.init(.startTicking)) {
+      $0.isTicking = true
+    }
+
+    await store.send(.increment5ButtonTapped)
+
+    await store.receive(.init(.checkIfBpmShouldChange(35))) {
+      $0.bpm = 35
+    }
+
+    await store.receive(.init(.startTicking))
+
+    await store.send(.stopTickingButtonTapped) {
+      $0.isTicking = false
     }
   }
 
   func testMaxMinBpm() async {
-    var store = TestStore(initialState: MainControls.State(bpm: 0)) {
+    var store = TestStore(initialState: MainControls.State(bpm: 10, minBPM: 10, maxBPM: 100)) {
       MainControls()
     }
 
-    // 0 is minimum no state change
     await store.send(.decrementButtonTapped)
 
-    store = TestStore(initialState: MainControls.State(bpm: 100)) {
+    // 10 is minimum no state change
+    await store.receive(.init(.checkIfBpmShouldChange(9)))
+
+    store = TestStore(initialState: MainControls.State(bpm: 100, minBPM: 10, maxBPM: 100)) {
       MainControls()
     }
 
-    // 100 is maximum no state change
     await store.send(.incrementButtonTapped)
+
+    // 100 is maximum no state change
+    await store.receive(.init(.checkIfBpmShouldChange(101)))
   }
 }

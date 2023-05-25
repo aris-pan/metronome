@@ -113,4 +113,28 @@ final class SongListFeatureTests: XCTestCase {
     XCTAssertEqual(loadURL, URL.documentsDirectory.appending(path: "metronome_song_list"))
     XCTAssertEqual(savedURL, URL.documentsDirectory.appending(path: "metronome_song_list"))
   }
+
+  func testSaveLoadWithErrors() async {
+    let store = TestStore(initialState: SongList.State(songList: [])) {
+      SongList()
+    } withDependencies: {
+      $0.fileManager = .error
+    }
+
+    await store.send(.saveButtonTapped) {
+      $0.showErrorAlert = true
+    }
+
+    await store.send(.errorAlertVisibilityChanged(false)) {
+      $0.showErrorAlert = false
+    }
+
+    await store.send(.loadButtonTapped) {
+      $0.showErrorAlert = true
+    }
+
+    await store.send(.errorAlertVisibilityChanged(false)) {
+      $0.showErrorAlert = false
+    }
+  }
 }
